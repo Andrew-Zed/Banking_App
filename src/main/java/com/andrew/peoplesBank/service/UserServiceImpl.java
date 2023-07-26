@@ -2,6 +2,7 @@ package com.andrew.peoplesBank.service;
 
 import com.andrew.peoplesBank.dto.AccountInfo;
 import com.andrew.peoplesBank.dto.BankResponse;
+import com.andrew.peoplesBank.dto.EmailDetails;
 import com.andrew.peoplesBank.dto.UserRequest;
 import com.andrew.peoplesBank.entity.User;
 import com.andrew.peoplesBank.repository.UserRepository;
@@ -14,12 +15,15 @@ import java.math.BigDecimal;
 public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    EmailService emailService;
+
     @Override
     public BankResponse createAccount(UserRequest userRequest) {
 
         /**
          * Creating amn account - saving a new user into the db
-         * Check if user aready has an account
+         * Check if user already has an account
          */
 
         if (userRepository.existsByEmail(userRequest.getEmail())) {
@@ -39,12 +43,23 @@ public class UserServiceImpl implements UserService{
                 .accountNumber(AccountUtils.generateAccountNumber())
                 .accountBalance(BigDecimal.ZERO)
                 .email(userRequest.getEmail())
+                .address(userRequest.getAddress())
                 .phoneNumber(userRequest.getPhoneNumber())
                 .alternativePhoneNumber(userRequest.getAlternativePhoneNumber())
                 .status("ACTIVE")
                 .build();
 
         User savedUser = userRepository.save(newUser);
+        // Send email Alert
+        EmailDetails emailDetails = EmailDetails.builder()
+                .recipient(savedUser.getEmail())
+                .subject("Account Creation")
+                .messageBody("Congratulations! Your Account has been successfully Created\n Your Account Details " +
+                "Account Name: " + savedUser.getFirstName() + " " + savedUser.getOtherName()
+                        + " " + savedUser.getLastName() + "\n Your Account Number " + savedUser.getAccountNumber())
+                .build();
+        emailService.sendEmailAlert(emailDetails);
+
         return BankResponse.builder()
                 .responseCode(AccountUtils.ACCOUNT_CREATED_SUCCESS)
                 .responseMessage(AccountUtils.ACCOUNT_CREATION_SUCCESS_MESSAGE)

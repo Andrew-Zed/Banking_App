@@ -2,6 +2,7 @@ package com.andrew.peoplesBank.controller;
 
 import com.andrew.peoplesBank.dto.AccountEnquiry;
 import com.andrew.peoplesBank.dto.BankResponse;
+import com.andrew.peoplesBank.dto.CreditDebitRequest;
 import com.andrew.peoplesBank.dto.UserRequest;
 import com.andrew.peoplesBank.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,10 @@ public class UserController {
     @GetMapping("/name-enquiry")
     public String nameEnquiry(@RequestBody AccountEnquiry accountEnquiry) {
         return userService.nameEnquiry(accountEnquiry);
+    }
+    @PostMapping("/credit")
+    public BankResponse creditAccount(@RequestBody CreditDebitRequest creditRequest) {
+        return userService.creditAccount(creditRequest);
     }
 
 }

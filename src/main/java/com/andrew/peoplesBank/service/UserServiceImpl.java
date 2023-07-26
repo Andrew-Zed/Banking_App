@@ -107,4 +107,34 @@ public class UserServiceImpl implements UserService{
                 .concat(foundUser.getLastName()));
     }
 
+    @Override
+    public BankResponse creditAccount(CreditDebitRequest creditDebitRequest) {
+        // Check if the account exists
+        boolean isAccountExist = userRepository.existsByAccountNumber(creditDebitRequest.getAccountNumber());
+        if (!isAccountExist) {
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.ACCOUNT_DOES_NOT_EXIST_CODE)
+                    .responseMessage(AccountUtils.ACCOUNT_DOES_NOT_EXIST_MESSAGE)
+                    .accountInfo(null)
+                    .build();
+        }
+
+        User userToBeCredited = userRepository.findByAccountNumber(creditDebitRequest.getAccountNumber());
+        userToBeCredited.setAccountBalance(userToBeCredited.getAccountBalance().add(creditDebitRequest.getAmount()));
+        userRepository.save(userToBeCredited);
+
+        return BankResponse.builder()
+                .responseCode(AccountUtils.ACCOUNT_CREDITED_SUCCESS_CODE)
+                .responseMessage(AccountUtils.ACCOUNT_CREDITED_SUCCESS_MESSAGE)
+                .accountInfo(AccountInfo.builder()
+                        .accountName(userToBeCredited.getFirstName().concat(" ")
+                                .concat(userToBeCredited.getOtherName()).concat(" ")
+                                .concat(userToBeCredited.getLastName()))
+                        .accountNumber(userToBeCredited.getAccountNumber())
+                        .accountBalance(userToBeCredited.getAccountBalance())
+                        .build())
+                .build();
+    }
+
+
 }

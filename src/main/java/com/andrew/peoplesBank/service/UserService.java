@@ -1,9 +1,6 @@
 package com.andrew.peoplesBank.service;
 
-import com.andrew.peoplesBank.dto.AccountEnquiry;
-import com.andrew.peoplesBank.dto.BankResponse;
-import com.andrew.peoplesBank.dto.CreditDebitRequest;
-import com.andrew.peoplesBank.dto.UserRequest;
+import com.andrew.peoplesBank.dto.*;
 
 public interface UserService {
     BankResponse createAccount(UserRequest userRequest);
@@ -11,4 +8,5 @@ public interface UserService {
     String nameEnquiry(AccountEnquiry accountEnquiry);
     BankResponse creditAccount(CreditDebitRequest creditRequest);
     BankResponse debitAccount(CreditDebitRequest debitRequest);
+    BankResponse transfer(TransferRequest transferRequest);
 }

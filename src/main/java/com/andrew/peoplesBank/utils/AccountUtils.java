@@ -22,7 +22,12 @@ public class AccountUtils  {
     public static final String INSUFFICIENT_BALANCE_MESSAGE = "Insufficient Balance";
     public static final String ACCOUNT_DEBITED_SUCCESS_CODE = "007";
     public static final String ACCOUNT_DEBITED_SUCCESS_MESSAGE = "Account successfully debited";
-
+    public static final String DEBIT_ACCOUNT_DOES_NOT_EXISTS_CODE = "008";
+    public static final String DEBIT_ACCOUNT_DOES_NOT_EXISTS_MESSAGE = "Account to be debited does not exists";
+    public static final String CREDIT_ACCOUNT_DOES_NOT_EXISTS_CODE = "009";
+    public static final String CREDIT_ACCOUNT_DOES_NOT_EXISTS_MESSAGE = "Account to be credited does not exists";
+    public static final String TRANSFER_SUCCESSFUL_CODE = "010";
+    public static final String TRANSFER_SUCCESSFUL_MESSAGE = "Transfer successful";
 
 
     public static String generateAccountNumber() {

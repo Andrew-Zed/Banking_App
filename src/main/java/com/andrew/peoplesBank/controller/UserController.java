@@ -1,9 +1,6 @@
 package com.andrew.peoplesBank.controller;
 
-import com.andrew.peoplesBank.dto.AccountEnquiry;
-import com.andrew.peoplesBank.dto.BankResponse;
-import com.andrew.peoplesBank.dto.CreditDebitRequest;
-import com.andrew.peoplesBank.dto.UserRequest;
+import com.andrew.peoplesBank.dto.*;
 import com.andrew.peoplesBank.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +33,11 @@ public class UserController {
     @PostMapping("/debit")
     public BankResponse debitAccount(@RequestBody CreditDebitRequest debitRequest) {
         return userService.debitAccount(debitRequest);
+    }
+
+    @PostMapping("/transfer")
+    public BankResponse transfer(@RequestBody TransferRequest transferRequest) {
+        return userService.transfer(transferRequest);
     }
 
 }

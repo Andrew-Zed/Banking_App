@@ -259,8 +259,8 @@ public class UserServiceImpl implements UserService{
                 .build();
         System.out.println(creditAlert);
 
-//        emailService.sendEmailAlert(debitAlert);
-//        emailService.sendEmailAlert(creditAlert);
+        emailService.sendEmailAlert(debitAlert);
+        emailService.sendEmailAlert(creditAlert);
 
         TransactionDto transactionDto = TransactionDto.builder()
                 .accountNumber(sourceAccount.getAccountNumber())
